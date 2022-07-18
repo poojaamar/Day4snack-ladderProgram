@@ -1,7 +1,65 @@
-﻿internal class Player
+﻿using System;
+
+namespace Day4assignment
 {
-    public int GamePlay()
+    internal class Player
     {
-        return 0;
+        const int LADDER = 1;
+        const int SNAKE = 2;
+        const int WINNING_POINT = 100;
+        public int GamePlay(int player)
+        {
+            int tempPosition;
+            int diceCount = 0;
+            int position = 0;
+            while (position < WINNING_POINT)
+            {
+                Random random = new Random();
+                int option = random.Next(0, 3);
+                int rollDie = random.Next(1, 7);
+                int againRollDie = random.Next(1, 7);
+                diceCount++;
+                switch (option)
+                {
+                    case LADDER:
+                        tempPosition = position + rollDie;
+                        if (tempPosition > 100)
+                        {
+                            position += 0;
+                        }
+                        else
+                        {
+                            tempPosition += againRollDie;
+                            diceCount++;
+                            if (tempPosition > 100)
+                            {
+                                position += 0;
+                            }
+                            else
+                            {
+                                position = tempPosition;
+                            }
+                        }
+                        break;
+                    case SNAKE:
+                        tempPosition = position - rollDie;
+                        if (tempPosition <= 0)
+                        {
+                            position = 0;
+                        }
+                        else
+                        {
+                            position = tempPosition;
+                        }
+                        break;
+                    default:
+                        position += 0;
+                        break;
+                }
+                Console.WriteLine("Player " + player + " position is " + position);
+            }
+            Console.WriteLine("The " + diceCount + " times the dice was played to win the game.");
+            return diceCount;
+        }
     }
 }
